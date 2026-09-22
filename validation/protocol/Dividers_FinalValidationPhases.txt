@@ -1,0 +1,5 @@
+Started recording at time: 4.154694, timer: 0.0000000
+Phase Divider at time: 9.404051, timer: 9.4039692
+Phase Divider at time: 20.53343, timer: 20.5334138
+Phase Divider at time: 31.81229, timer: 31.8121807
+Stopped recording at time: 42.46846, timer: 42.4684395
