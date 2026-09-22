@@ -26,11 +26,14 @@ City University of Hong Kong.
 
 ## Licence
 
-GPL-3.0 — see [`LICENSE`](LICENSE). This matches
-[`Maximal-Blurred-Segments`](https://github.com/perryshao/Maximal-Blurred-Segments),
-which publishes the MBS component of this project (`mbs/`) standalone under the same
-terms. The third-party toolboxes under `thirdparty/` keep their own licences; see
-[`thirdparty/README.md`](thirdparty/README.md).
+GPL-3.0 — see [`LICENSE`](LICENSE). The third-party toolboxes under `thirdparty/`
+keep their own licences; see [`thirdparty/README.md`](thirdparty/README.md).
+
+The MBS component (`mbs/`) was previously published standalone as the
+`Maximal-Blurred-Segments` repository, also under GPL-3.0; that repository has been
+retired now that its contents are carried here. Its sources are identical apart from
+the include paths, which were flattened (`"lib\unit_reco.h"` → `"unit_reco.h"`) to
+match this project's layout, and both `.mexa64` binaries are byte-identical.
 
 ---
 
