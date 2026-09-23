@@ -43,19 +43,6 @@ switch descriptorId
         descriptor = integral_invariant_dist(trajectory,20);
     case 6
         descriptor = integral_invariant_dist_mkn(trajectory,60);
-    case 7
-        % TSSM + log-polar HOG of the integral invariant.  Not one of the paper's
-        % descriptors; its code is not part of this project.  Kept commented for
-        % the record -- see README.md.
-        %  descriptor = integral_invariant_kn(trajectory,8,20);
-        %  descriptor = 0.5-descriptor;
-        %  TSSM = Temporal_SSM(descriptor,descrip_flag);
-        %  Image_TSSM = TSSM(10+1:end-10,10+1:end-10);
-        %  Image_TSSM = floor((Image_TSSM/max(max(Image_TSSM)))*(2^16-1));
-        %  descriptor  = Log_hogcalculator(Image_TSSM);
-        error('cal_descriptors:descriptorUnavailable', ...
-            ['descriptorId 7 (TSSM + log-HOG) is not part of this project ' ...
-             '-- see README.md. Use 1-6, 8, 9 or 10.']);
     case 8
         nsamp1=size(trajectory,1);
         % outlies on each iteration

@@ -94,66 +94,6 @@ IID/
 └── tools/         Maintenance scripts (original-location cleanup)
 ```
 
-## Removed: TSSM / Log-HOG
-
-The workspace this was reconstructed from also held a **temporal self-similarity matrix
-(TSSM) + log-polar HOG** descriptor family. None of it belongs to these papers and it
-has been left out; it is being consolidated into its own project.
-
-The three papers compare exactly six representations, and they map one-to-one onto
-`descrip_flag` 1–6 — that is Table II of the TCYB 2016 paper, and Figs. 10–12 compare
-the same six. No SSM- or HOG-based descriptor appears in any of the three.
-
-Consequences for this project:
-
-- **`descrip_flag == 7`** (integral invariant → TSSM → Log-HOG) cannot run. It is an
-  unpublished exploratory branch present in `trajectory_matching.m` (HDM05, MHAD) and in
-  `validation/cal_descriptors.m`, and invoked only by `experiments/HDM05/matching_test.m`.
-  Flags 1–6, 8 and 9 are unaffected, as is `validation`'s case 10 (RRV). MHAD's driver
-  uses 8–9 but never 7; ASL's uses 1–5.
-  Those `case 7` branches are the only place the removed functions are still named. They
-  sit inside a `switch`, so they cost nothing unless that flag is selected.
-- **`MSRC12/gene_TSSM.m` and `MSRC12/Temporal_SSMofHierarD.m` were deleted** — both are
-  wholly TSSM generators, and the second was called only by the first.
-- **Eight descriptor generators were repaired** (already done, no action needed).
-  Each was named for one descriptor but had a TSSM + Log-HOG block appended that
-  silently overwrote it on the last line before the result was stored. All eight now
-  compute the descriptor their name claims; the TSSM block is commented out in each.
-
-  | File | now computes |
-  |---|---|
-  | `ASL/gene_descriptor_integral.m` + `_samples` | `integral_invariant(marker_xyz,6,0.005)` → **AII** |
-  | `ASL/gene_descriptor_diff.m` + `_samples` | `descriptor_comp` → **DI** |
-  | `ASL/gene_descriptor.m` + `_samples` | its `switch descrip_flag` result, unmodified |
-  | `MSRC12/gene_descriptor_diff.m` + `_samples` | `descriptor_comp` → **DI** |
-
-  The ASL AII setting is the 94.17% row of TCYB Table II. Train/test pairs were checked
-  across all four datasets and every pair now agrees — that matters because a mismatch
-  produces meaningless recognition rates rather than an error.
-
-- **A syntax error was fixed.** `ASL/gene_descriptor.m` and `..._samples.m` contained
-  `if ssm_flag = 1` — assignment, not comparison. MATLAB cannot parse it, so neither
-  file could run at all. It sat inside the TSSM block, which is now commented out.
-
-**HDM05 and MHAD needed no repair** — their generators were already consistent and
-name-accurate (`gene_descriptor` → DI, `gene_descriptor_fd` → FD,
-`gene_descriptor_integral` → DII on HDM05, MAII on MHAD).
-
-Note that `gene_descriptor_integral` does *not* mean the same descriptor in every
-folder — it is whichever block was last enabled (ASL: AII, HDM05: DII, MHAD and
-MSRC12: MAII). Check the active line before trusting a result.
-
-`self_similarity.m` (HDM05, MHAD, MSRC12) is **kept** despite the name — it is not the
-TSSM descriptor. It builds a pairwise distance matrix among one sample's descriptors via
-`feature_dist_matching`, and is called by `thirdparty/SpectralClustering/RankOneDecom_Feaures.m`,
-which every `recognition_dtw_*` script depends on.
-
-The removed sources remain on the original share (`MatlabProjects/work/`): the eight
-top-level `*Ssm*` / `*hog*` files plus `ASLEvaluatingCode/LogHog.mexw32`. The centre of
-that work is `MSRActionEvaluatingCode/` (`GeneTSSM.m`, `recognition_ssm_MSRA_bat.m`,
-`Temporal_SSMofHierarD.m`), with `self_similarity.m` in the HDM05, MHAD and MSRC12
-folders.
-
 ### `validation/` — not part of the three papers
 
 A later (2021) study that reused these invariants to compare an OptiTrack Motive rig
@@ -230,12 +170,22 @@ were produced:
 | 4 | **Multiscale integral invariant (MII)** — `integral_invariant_ms` |
 | 5 | **Distance integral invariant (DII)** — `integral_invariant_dist` |
 | 6 | Multiscale distance integral invariant — `integral_invariant_dist_mkn` |
-| 7 | II + Temporal SSM + Log-HOG |
 | 8 | 3-D shape context on Frenet frames — `sc3d_compute` |
 | 9 | Moment invariants — `Moment_Invariant` |
 
 `level` is the additive Gaussian noise standard deviation; `occlu_ratio` is the
 simulated occlusion ratio.
+
+Note that `gene_descriptor_integral` does *not* mean the same descriptor in every
+experiment folder — it is whichever block was last enabled (ASL: AII, HDM05: DII, MHAD and
+MSRC12: MAII). Check the active line before trusting a result. Train/test generator
+pairs (`foo.m` / `foo_samples.m`) must select the same block; a mismatch produces
+meaningless recognition rates rather than an error.
+
+`self_similarity.m` (HDM05, MHAD, MSRC12) builds a pairwise distance matrix among one
+sample's descriptors via `feature_dist_matching`; it is called by
+`thirdparty/SpectralClustering/RankOneDecom_Feaures.m`, which every `recognition_dtw_*`
+script depends on.
 
 ---
 
@@ -290,17 +240,16 @@ are only needed for a Windows build.
 | `distance_matrix_norm1/norm2/kt` | ✅ | ✅ | — | win32 |
 | `hist_isect_c` | ✅ | — | — | ✅ |
 | `MelkmanConvexHull` | ❌ **no source** | — | — | ✅ |
-| `LogHog` | ❌ **no source** | — | — | win32 |
 
 ### ⚠️ Two known gaps
 
 **1. The macOS binaries are Intel, this machine is Apple Silicon.**
 Every `.mexmaci64` here is `Mach-O 64-bit bundle x86_64`. Under an Apple-Silicon MATLAB
-(`maca64`) they will not load. Everything except `MelkmanConvexHull` and `LogHog` has
+(`maca64`) they will not load. Everything except `MelkmanConvexHull` has
 source in `mbs/src/` and `matching/src/`, so rebuild with the `mex` commands above —
 that is the intended fix, not Rosetta.
 
-**2. `MelkmanConvexHull` and `LogHog` exist only as Windows binaries — no source.**
+**2. `MelkmanConvexHull` exists only as Windows binaries — no source.**
 
 - `MelkmanConvexHull` implements the convex-hull dynamical-thickness test used by the
   **pure-MATLAB** MBS path: `Determine_xy` / `Determine_xz`, reached from
@@ -308,8 +257,6 @@ that is the intended fix, not Rosetta.
   The **main 3-D pipeline is unaffected** — `splitting_curve_3D` calls the
   `Determine_segment` mex, which does have source. So 3-D trajectory work rebuilds
   cleanly; only the 2-D and pure-MATLAB fallback paths are blocked off-Windows.
-- `LogHog` is used by one ASL script (`gene_descriptor_diff.m`). The `.m` implementation
-  `Log_hogcalculator.m` in `baselines/` covers the same computation.
 
 ---
 

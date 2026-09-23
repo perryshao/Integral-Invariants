@@ -60,19 +60,6 @@ for i=1:samples
 %     marker_des = fd(2:31,:);
     %% raw data
 %     marker_des = marker_xyz;
-%% Self-similarity descriptor
-%     TSSM = Temporal_SSM(marker_des,3,5);
-% %     Image_TSSM = TSSM(2+1:end-2,2+1:end-2);
-%     Image_TSSM = TSSM;
-%     Image_TSSM = floor((Image_TSSM/max(max(Image_TSSM)))*(2^16-1));
-% %     Image_TSSM = exp(-Image_TSSM/(1*65536));
-%     %%%%%%%%%%%%%%%%% HOG of SSM %%%%%%%%%%%%%%%%%
-%     marker_des  =   Log_hogcalculator(Image_TSSM);
-% %     marker_des  = LocalSsmcalculatorSameBlock(Image_TSSM);
-% %     marker_des  =   global_hogcalculator(Image_TSSM);
-%     %%%%%%%%%%%%%%%%% max(variance) of SSM %%%%%%%%%%%%%%%%%
-% %     marker_des  = [marker_des(2+1:end-2,:) LocalSsmcalculator(Image_TSSM)];
-% %     marker_des  = LocalSsmcalculator(Image_TSSM);
     %% final descriptor
     TRAJDB_DES{1,i} = marker_des;
 end

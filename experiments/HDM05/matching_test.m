@@ -32,23 +32,6 @@ save matching_results_010_occlusion_000_desp_8 distance_matrix_interg recog_rati
 save matching_results_015_occlusion_000_desp_8 distance_matrix_interg recog_ratio_interg distance_table_interg
 [distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.20,8,0);
 save matching_results_020_occlusion_000_desp_8 distance_matrix_interg recog_ratio_interg distance_table_interg
-%% occlusion 0% and noise from 0.00-0.2, for SSM HOG integral invariants
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.00,7,0);
-save matching_results_000_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.01,7,0);
-save matching_results_001_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.02,7,0);
-save matching_results_002_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.04,7,0);
-save matching_results_004_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.08,7,0);
-save matching_results_008_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.10,7,0);
-save matching_results_010_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.15,7,0);
-save matching_results_015_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
-[distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.20,7,0);
-save matching_results_020_occlusion_000_desp_7 distance_matrix_interg recog_ratio_interg distance_table_interg
 %% occlusion 0% and noise from 0.00-0.2, for multiscale distance invariant
 [distance_matrix_interg,recog_ratio_interg,distance_table_interg] = trajectory_matching('RWRA',0.00,6,0);
 save matching_results_000_occlusion_000_desp_6 distance_matrix_interg recog_ratio_interg distance_table_interg

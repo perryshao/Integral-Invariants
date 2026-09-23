@@ -147,23 +147,6 @@ for experiment_num = 1:EXPERIMENT_NUM
                 marker_des = integral_invariant_dist(marker_xyz,20);
             case 6
                 marker_des = integral_invariant_dist_mkn(marker_xyz,60);
-		    case 7
-                % TSSM + log-polar HOG of the integral invariant.  Not one of the
-                % paper's descriptors; its code is not part of this project.
-                % Kept commented for the record -- see README.md.
-%                 marker_des = integral_invariant(marker_xyz,8,0.08);
-%                 marker_des = integral_invariant_kn(marker_xyz,8,20);
-%                 marker_des = integral_invariant_kn(marker_xyz,8,5);
-%                 marker_des = 0.5-marker_des;
-%                 marker_des= [marker_des(:,1) [0; diff(marker_des(:,1),1,1)]...
-%                              marker_des(:,2) [0;diff(marker_des(:,2),1,1)]];
-%                 TSSM = Temporal_SSM(marker_des,descrip_flag);
-%                 Image_TSSM = TSSM(10+1:end-10,10+1:end-10);
-%                 Image_TSSM = floor((Image_TSSM/max(max(Image_TSSM)))*(2^16-1));
-%                 marker_des  = Log_hogcalculator(Image_TSSM);
-                error('trajectory_matching:descriptorUnavailable', ...
-                    ['descrip_flag 7 (TSSM + log-HOG) is not part of this ' ...
-                     'project -- see README.md. Use 1-6, 8 or 9.']);
             case 8
                 nsamp1=size(marker_xyz,1);
                 % outliers on each iteration
@@ -213,23 +196,6 @@ for experiment_num = 1:EXPERIMENT_NUM
                 marker_des = integral_invariant_dist(marker_xyz,20);
             case 6
                 marker_des = integral_invariant_dist_mkn(marker_xyz,60);
-			case 7
-                % TSSM + log-polar HOG of the integral invariant.  Not one of the
-                % paper's descriptors; its code is not part of this project.
-                % Kept commented for the record -- see README.md.
-                %  marker_des = integral_invariant(marker_xyz,40,0.08);
-                %  marker_des = integral_invariant_kn(marker_xyz,20,20);
-                %  marker_des = integral_invariant_kn(marker_xyz,8,5);
-                %  marker_des = 0.5-marker_des;
-                %  marker_des= [marker_des(:,1) [0; diff(marker_des(:,1),1,1)]...
-                %               marker_des(:,2) [0; diff(marker_des(:,2),1,1)]];
-                %  TSSM = Temporal_SSM(marker_des,descrip_flag);
-                %  Image_TSSM = TSSM(10+1:end-10,10+1:end-10);
-                %  Image_TSSM = floor((Image_TSSM/max(max(Image_TSSM)))*(2^16-1));
-                %  marker_des  = Log_hogcalculator(Image_TSSM);
-                error('trajectory_matching:descriptorUnavailable', ...
-                    ['descrip_flag 7 (TSSM + log-HOG) is not part of this ' ...
-                     'project -- see README.md. Use 1-6, 8 or 9.']);
             case 8
                 NaN_index = isnan(marker_xyz(:,1));
                 marker_xyz(NaN_index,:) = [];

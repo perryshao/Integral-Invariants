@@ -15,10 +15,6 @@ root = fileparts(mfilename('fullpath'));
 folders = {'core', 'mbs', 'matching', 'baselines', 'preprocess', ...
            'figures', 'utils', 'experiments', 'validation', 'thirdparty'};
 
-% NOTE: the TSSM / Log-HOG descriptors belong to a separate line of work and are
-% not part of this project, so descrip_flag == 7 cannot run here.  Everything
-% else is unaffected — see the "Removed: TSSM / Log-HOG" section of README.md.
-
 for k = 1:numel(folders)
     p = fullfile(root, folders{k});
     if exist(p, 'dir')

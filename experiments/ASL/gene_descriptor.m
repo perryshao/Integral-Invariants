@@ -1,4 +1,4 @@
-function gene_descriptor(marker,level,descrip_flag,occlu_ratio,ssm_flag)
+function gene_descriptor(marker,level,descrip_flag,occlu_ratio)
 if occlu_ratio == 0
     occlu_flag = 0;
 else
@@ -87,26 +87,9 @@ for i=1:samples
 			marker_des = integral_invariant_dist(marker_xyz,20);
 		case 6
 			marker_des = integral_invariant_dist_mkn(marker_xyz,60);
-		case 7
-			marker_des = marker_xyz;
 		otherwise
 			disp('error input descrip_flag')
 	end
-	%% Self-similarity descriptor -- NOT one of the paper's descriptors; disabled.
-	%  Belongs to the separate TSSM / log-polar HOG line of work, whose code is no
-	%  longer part of this project -- see README.md.  The ssm_flag argument is
-	%  therefore ignored; pass 0 (or anything) for it.
-	%  NOTE: this block also contained a genuine MATLAB syntax error --
-	%  "if ssm_flag = 1" (assignment, not comparison; should be "==").  The file
-	%  could not parse at all while the block was live.
-	%	if ssm_flag == 1
-	%		TSSM = Temporal_SSM(marker_des,descrip_flag);
-	%		Image_TSSM = TSSM(2+1:end-2,2+1:end-2);
-	%		Image_TSSM = floor((Image_TSSM/max(max(Image_TSSM)))*(2^16-1));
-	%		marker_des  = Log_hogcalculator(Image_TSSM);
-	%		marker_des  = LocalSsmcalculatorSameBlock(Image_TSSM);
-	%		marker_des  = LocalSsmcalculator(Image_TSSM);
-	%	end
     %% final descriptor
     TRAJDB_DES{1,i} = marker_des;
 end

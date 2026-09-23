@@ -10,8 +10,8 @@
 *.md     text
 *.sh     text eol=lf
 
-# Prebuilt MEX binaries are tracked on purpose -- MelkmanConvexHull and LogHog
-# have no surviving source, so the binaries are the only copy.  Never let git
+# Prebuilt MEX binaries are tracked on purpose -- MelkmanConvexHull
+# has no surviving source, so the binaries are the only copy.  Never let git
 # apply newline translation to them.
 *.mex*       binary
 *.mexw32     binary
