@@ -46,3 +46,9 @@ Thumbs.db
 *.tagstream
 *.csv
 *.xlsx
+
+# Local validation environments and generated test/build output
+__pycache__/
+*.pyc
+.venv/
+build/

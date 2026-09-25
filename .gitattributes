@@ -1,6 +1,6 @@
 # Normalise line endings on commit.  The original workspace was Windows MATLAB,
 # so most .m files still carry CRLF; this converts them to LF in the repository
-# while leaving each working copy native.
+# and checks text files out as LF on every platform.
 * text=auto eol=lf
 
 *.m      text
@@ -10,9 +10,8 @@
 *.md     text
 *.sh     text eol=lf
 
-# Prebuilt MEX binaries are tracked on purpose -- MelkmanConvexHull
-# has no surviving source, so the binaries are the only copy.  Never let git
-# apply newline translation to them.
+# Preserve the historical prebuilt MEX binaries independently of recovered
+# source and new test builds. Never apply newline translation to binaries.
 *.mex*       binary
 *.mexw32     binary
 *.mexw64     binary
@@ -24,3 +23,6 @@
 # Keep GitHub's language statistics about *this* project rather than about the
 # bundled toolboxes.
 thirdparty/** linguist-vendored
+
+# Keep recovered source archives byte-for-byte; they are not active code.
+legacy/** -text linguist-vendored

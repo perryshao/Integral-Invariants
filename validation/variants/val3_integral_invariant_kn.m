@@ -1,4 +1,4 @@
-function integral = integral_invariant_kn(Curve_xyz,Width,kpoints)
+function integral = integral_invariant_kn(Curve_xyz, Width, kpoints)
 %% parameter definition
 %  Input:
 %  Curve_xyz -- input 3d sequence of points
@@ -12,36 +12,36 @@ function integral = integral_invariant_kn(Curve_xyz,Width,kpoints)
 %  res = 1000, grid resolution for curve discretization
 %% perform the Maximal Blurred Segment of arbitrary curve
 res = 1000;
-[Curve_xyz,staindex] = remove_stapoint(Curve_xyz); % delete for occlusion fig
-curve_xyz_int = curve_grid(Curve_xyz,res);
-if size(curve_xyz_int,2) > 2
-    MBS = splitting_curve_3D(curve_xyz_int,Width);
+[Curve_xyz, staindex] = remove_stapoint(Curve_xyz); % delete for occlusion fig
+curve_xyz_int = curve_grid(Curve_xyz, res);
+if size(curve_xyz_int, 2) > 2
+    MBS = splitting_curve_3D(curve_xyz_int, Width);
 else
-    MBS = splitting_curve_2D(curve_xyz_int,Width);
+    MBS = splitting_curve_2D(curve_xyz_int, Width);
 end
-n = size(curve_xyz_int,1);
-m = size(MBS.data,2);
-integral = ones(n,2)*0.5;
+n = size(curve_xyz_int, 1);
+m = size(MBS.data, 2);
+integral = ones(n, 2) * 0.5;
 %% determine the Right and Left key point throught MBS
 for i = 1:m
     if i == 1,
         E_num = 1;
     else
 
-        E_num = MBS.B_E_seg(i-1,2)+1;
+        E_num = MBS.B_E_seg(i - 1, 2) + 1;
     end
 
-    for k = E_num:MBS.B_E_seg(i,2),
-        L(k) = MBS.B_E_seg(i,1);  %#ok<AGROW>
+    for k = E_num:MBS.B_E_seg(i, 2),
+        L(k) = MBS.B_E_seg(i, 1);  %#ok<AGROW>
     end
 
-     if i == m,
+    if i == m,
         B_num = n;
-     else
-        B_num = MBS.B_E_seg(i+1,1)-1;
+    else
+        B_num = MBS.B_E_seg(i + 1, 1) - 1;
     end
-    for k = MBS.B_E_seg(i,1):B_num,
-        R(k) = MBS.B_E_seg(i,2);  %#ok<AGROW>
+    for k = MBS.B_E_seg(i, 1):B_num,
+        R(k) = MBS.B_E_seg(i, 2);  %#ok<AGROW>
     end
 end
 
@@ -64,11 +64,9 @@ end
 %% dynamically plot the MBS procedure
 % plot_MBS;
 %% compute the integral invariants
-kns = fix(kpoints/2);
-for i = kns+1:(n-kns)
-    Radius = min(norm(Curve_xyz(i,:) - Curve_xyz(i-kns,:)),norm(Curve_xyz(i+kns,:) - Curve_xyz(i,:)));
-    integral(i,:) = estimate_integral(Curve_xyz,Curve_xyz(i,:),Curve_xyz(L(i),:),Curve_xyz(R(i),:),Radius,i); % Radius of the circumcircle to [CL(i),C(i),CR(i)]
+kns = fix(kpoints / 2);
+for i = kns + 1:(n - kns)
+    Radius = min(norm(Curve_xyz(i, :) - Curve_xyz(i - kns, :)), norm(Curve_xyz(i + kns, :) - Curve_xyz(i, :)));
+    integral(i, :) = estimate_integral(Curve_xyz, Curve_xyz(i, :), Curve_xyz(L(i), :), Curve_xyz(R(i), :), Radius, i); % Radius of the circumcircle to [CL(i),C(i),CR(i)]
 end
-integral = fillstapoint(integral,staindex);
-
-
+integral = fillstapoint(integral, staindex);

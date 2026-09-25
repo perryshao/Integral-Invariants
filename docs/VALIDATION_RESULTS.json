@@ -1,0 +1,222 @@
+{
+  "timestamp_utc": "2026-09-25T12:35:59.386346+00:00",
+  "checks": [
+    {
+      "name": "reference preprocessing and grid metamorphic checks",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "actual C++ L1/L2/grouped distance vs NumPy",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "actual C++ circumcenter vs linear solve and invalid inputs",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "actual C++ constrained DTW vs recurrence and exhaustive paths",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "actual segment recognizer and bounded 3D segmentation",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reference area integral circle and rigid/scale transforms",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reference distance statistic hand-computed fixture",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "reference AII/MAII/DII/MDII and legacy repeated first scale",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "native memory/undefined-behavior regressions",
+      "passed": true,
+      "details": "4 executables, ASan/UBSan; leak checking disabled for platform portability"
+    },
+    {
+      "name": "original MATLAB via Octave: descriptors, MEX, files and recognition",
+      "passed": true,
+      "details": {
+        "max_absolute_errors": {
+          "aii": 3.3306690738754696e-16,
+          "maii": 5.551115123125783e-16,
+          "dii": 3.3306690738754696e-16,
+          "mdii": 3.3306690738754696e-16
+        },
+        "dataset_matchers": [
+          "ASL",
+          "HDM05",
+          "MHAD",
+          "MSRC12"
+        ],
+        "dataset_scores": [
+          [
+            [
+              3.387036206621133e-16,
+              0.056138551549461416,
+              0.04758352643715117
+            ],
+            [
+              0.05613855154946144,
+              2.0604182286797224e-16,
+              0.054787685291018115
+            ],
+            [
+              0.04758352643715114,
+              0.05478768529101814,
+              2.367897773646876e-16
+            ]
+          ],
+          [
+            [
+              3.387036206621133e-16,
+              0.056138551549461416,
+              0.04758352643715117
+            ],
+            [
+              0.05613855154946144,
+              2.0604182286797224e-16,
+              0.054787685291018115
+            ],
+            [
+              0.04758352643715114,
+              0.05478768529101814,
+              2.367897773646876e-16
+            ]
+          ],
+          [
+            [
+              3.387036206621133e-16,
+              0.056138551549461416,
+              0.04758352643715117
+            ],
+            [
+              0.05613855154946144,
+              2.0604182286797224e-16,
+              0.054787685291018115
+            ],
+            [
+              0.04758352643715114,
+              0.05478768529101814,
+              2.367897773646876e-16
+            ]
+          ],
+          [
+            [
+              3.387036206621133e-16,
+              0.056138551549461416,
+              0.04758352643715117
+            ],
+            [
+              0.05613855154946144,
+              2.0604182286797224e-16,
+              0.054787685291018115
+            ],
+            [
+              0.04758352643715114,
+              0.05478768529101814,
+              2.367897773646876e-16
+            ]
+          ]
+        ],
+        "dataset_generator_pairs": 4,
+        "log": "1 of 1 integral descriptor...\n1 of 1 samples integral descriptor...\n1 of 1 integral descriptor...\n1 of 1 samples integral descriptor...\n1 of 1 integral descriptor...\n1 of 1 samples integral descriptor...\n1 of 1 integral descriptor...\n1 of 1 samples integral descriptor...\nPASS original MATLAB pipeline, four dataset matchers, MEX outputs, MAT interchange\n"
+      }
+    }
+  ],
+  "scope": "synthetic numerical/native tests; no real benchmark accuracy claim",
+  "source_sha256": {
+    "core/Estimate_Frenet.m": "a88b7a1315e9c21603174c515e9b2dbeca46e946682740bf17690186fd96ef83",
+    "core/curve_grid.m": "c9c4d77df469e9c0201af9effcaa285711542f6f754a469b8529518bb90f97f5",
+    "core/estimate_integral.m": "9ab2d592812731b9bf65edeb3f6e388106577bdc1a21615b291ef0f2656325f5",
+    "core/estimate_integral_dist.m": "297033c08d2872f435ccbe6802e63e6cf5fa137f9ee077ac3ec0d9a01fafebe4",
+    "core/estimate_integral_fig.m": "dd5b3c474e2d457c2e135a779d7a8d3fdcb8ed3c0f776444b389cd21c2d19c7c",
+    "core/estimate_integral_interp.m": "5194310677a48496dbfa0097a72b48b86670fea03f2da3ad611e2ff277626002",
+    "core/estimate_integral_ms.m": "e1671683f84b1c429fc3cc2382b05b16f991feadfa984dfdb6690a3b60dc1997",
+    "core/integral_invariant.m": "adc2ac3ae9cf43f3380a78e5437142b672c0aee2b1bb0f637ebadfd7e2c70937",
+    "core/integral_invariant_dist.m": "e9933fb1aa569120307c0881ab18e6c67593626e50f68b73b7c6dd35c5e82f7b",
+    "core/integral_invariant_dist_mkn.m": "945e725a5b27298f5a1c69a391de3fec5f722d181771c0fb21d46bee727f5f91",
+    "core/integral_invariant_dist_ms.m": "4f5817151efab9de58398269f8595a798fa6b8967a0ecc6eab9c0489307d3253",
+    "core/integral_invariant_kn.m": "dbc846975fa5d0f9ad80f40ca7e2ad472fef190762f283a6cf9948b678ed4136",
+    "core/integral_invariant_mkn.m": "455e88966c6a8f30fc4ba14455981f9f0e2fe5b2ed0ed2f74c439db19426a66e",
+    "core/integral_invariant_ms.m": "d37f07009687469aa68fd74b1a99dab9d991b05034893a2b57b938f96125f192",
+    "experiments/ASL/dtw_adj_matching.m": "bb0594fe26b1cd9b7c91f7f1660097236569224539bc83f6bcb3cb00ea336e28",
+    "experiments/ASL/feature_dist_matching.m": "59a32acc92faba9c8f39aae809ac5252b47c72c095a49e0aceb2e092f0aa7309",
+    "experiments/ASL/gene_descriptor_integral.m": "e939b10cdb5ab023b56b59158c47406cb63726c8d296b30cda822b74eb4e23b5",
+    "experiments/ASL/gene_descriptor_integral_samples.m": "4a76bbe1c436fa536c5f3eeb73a2161063c6cd4a0e5e9539b4ca05c2e644e786",
+    "experiments/HDM05/dtw_adj_matching.m": "60286dbc0c58cbfc2cf3091341a03415252353cc8cd892df974d970ce9c33185",
+    "experiments/HDM05/feature_dist_matching.m": "72a7ee8e00979849c31f99a661058f04939778a30590b96a573b23b42c400470",
+    "experiments/HDM05/gene_descriptor_integral.m": "db200c7029eacfe7ee1e2d38d4c082f428f8ed5a475f0f5b0e31be5174f2a76a",
+    "experiments/HDM05/gene_descriptor_integral_samples.m": "753daee95dba13a8608effe368e926d6aca9b6a1dcabf068ff454ba5b24ab63e",
+    "experiments/MHAD/dtw_adj_matching.m": "60286dbc0c58cbfc2cf3091341a03415252353cc8cd892df974d970ce9c33185",
+    "experiments/MHAD/feature_dist_matching.m": "72a7ee8e00979849c31f99a661058f04939778a30590b96a573b23b42c400470",
+    "experiments/MHAD/gene_descriptor_integral.m": "306fa1e19a2293c048f481d792d8636ac872edba793d5a8e2d508fd7a4c27f63",
+    "experiments/MHAD/gene_descriptor_integral_samples.m": "c7a1cb0b45ad1bdda8cc67b98a7343a4aaafe70fd0d4e1a09a89c3bb7699770b",
+    "experiments/MSRC12/dtw_adj_matching.m": "452115140f7e1eed735ad6f766e061572ce0872ec8b9395b55e29fda6154daec",
+    "experiments/MSRC12/feature_dist_matching.m": "72a7ee8e00979849c31f99a661058f04939778a30590b96a573b23b42c400470",
+    "experiments/MSRC12/gene_descriptor_integral.m": "fd6724dbcdfbc024c24dd90d63a7b80a961fffdc40c7baec60e888be5e2f91db",
+    "experiments/MSRC12/gene_descriptor_integral_samples.m": "27d332b1f9e846b4316c3128a9a3774787bace4e74c89232892f4c7efea726e9",
+    "matching/hist_isect.m": "8958cabcb0c7cf8cbae246ca3bc25ace10bede22a9c28f6a46bd442bd550923f",
+    "matching/ned_distance.m": "d6eaf889dbbd62deaaaa1dc79bd66ba4173be0e70c12f2cf711a8b1ac1bc4cca",
+    "matching/src/distance_matrix/distance_matrix.cpp": "e1692ed1b62747bd424cf9051e60666f6a7f582ac5c9af2593c5a80b3c619256",
+    "matching/src/distance_matrix/distance_matrix_kt.cpp": "9a531755e0d8aa5cf3a10c6327b0df63ff29097aa8fc026c7b4fbed9c4b9f7ab",
+    "matching/src/distance_matrix/distance_matrix_msrc12.cpp": "828bb48df4a6ef869b6ee6b4132c4824d07e0cf3d39f1c5abf72f3d958e6323f",
+    "matching/src/distance_matrix/distance_matrix_norm1.cpp": "5708c742f92b009beef9818ab6f135cce72df10100b73beac8d169ad892977f0",
+    "matching/src/distance_matrix/distance_matrix_norm2.cpp": "fcdf3184ef63b565f560e49444273a988e58417b58e75e8473368fec763ad100",
+    "matching/src/dtwpath/dpcore.cpp": "2836982fb5867c1e7fd395655de553a359b14c70927981f80450e4736b42d21d",
+    "matching/src/dtwpath/dtwpath.cpp": "907957adbf4a128797a106511712c576383f2f5609f0a28139890d6ec9b351e9",
+    "matching/src/dtwpath/stdafx.cpp": "8a01993b5be92ee2887c7c994a7395b94790518ef4267d37db3fca59761d5c18",
+    "matching/src/dtwpath/stdafx.h": "7a8c33ab5e770d147476828a096a3fbb5e50c163af26f674a73cc8de2ddc259b",
+    "matching/src/dtwpath/targetver.h": "d9ad00bc263ed7956733bd3379ceaea98abbf47a7fad7d3a7bd769e9c9fd25a6",
+    "matching/traceback_path.m": "08bac18ed13e8b8192907538069b6e8b9e495410fd6a350003eb3dd49a49544d",
+    "mbs/Determine_xy.m": "e879e24fa7bf66e76eb41d904bfc0ab4ffc2a9b2ddb29c584b6cc08fb76fe261",
+    "mbs/Determine_xz.m": "2e93178e2f7f453f443e168110a99c771f8d42fb8f1548f3402faae4bb30518d",
+    "mbs/splitting_curve_2D.m": "118191465452293262a6dc778fcf48a82d65956f245df3d5b7e189287d526143",
+    "mbs/splitting_curve_3D.m": "2c0074222aab183b197ad902c3eb7c6cfa543320d099f9decf6170400f73aa4d",
+    "mbs/src/Determine_segment.cpp": "5c136399ba218bb9664eb896ecf348b8f003cf7601018508f1633492a902bf82",
+    "mbs/src/MTMemoryPool.h": "bed3a01b96262ffc8193f2a533e9c63e655e60673600e78e81f40db5e5a280d3",
+    "mbs/src/MelkmanConvexHull.cpp": "ef159e9413863f828083da968c3bc77b75051c81ffd595d89a1f3f5f01a28943",
+    "mbs/src/MemoryPool.h": "271c1846ff3e77a5f141487861fbc29d24f2c8e464a25ae0a17cf390dd010741",
+    "mbs/src/mini_math_kernel.h": "045b44dfc4602c2916ead2c1310c8fd4aeaccb3b020991dcb06aa6872716caa3",
+    "mbs/src/stdafx.cpp": "05c63a2a8baa4d6ddab8537e8758c9411569b7e69779ed106d75bcecb5312fd7",
+    "mbs/src/stdafx.h": "7a8c33ab5e770d147476828a096a3fbb5e50c163af26f674a73cc8de2ddc259b",
+    "mbs/src/targetver.h": "d9ad00bc263ed7956733bd3379ceaea98abbf47a7fad7d3a7bd769e9c9fd25a6",
+    "mbs/src/tricircumcenter3d.cpp": "1d31d3d55466926d0b029bacc3ac125a5c42e7eab0e0ccb98034d803f9c34c0b",
+    "mbs/src/unit_reco.cpp": "e71beba5fe6a323b7aa1309e44994a68166ae6771441eae4fd3253ff880778b3",
+    "mbs/src/unit_reco.h": "113fe2c9da93bf4ea04b4991994c40fe2afd244aa6e47be54517d48d87b04d47",
+    "mbs/test_blursegment.m": "9b5dcbdfa86044b888b5d4b1e6935f5728ef4ccb52e4ad2f61325e44bad9b775",
+    "mbs/transform_firstOctant.m": "76f67f8ee2f46c80c560737fc3e7f42938399520e1d7cb9ede68691efa60f9c0",
+    "preprocess/fillstapoint.m": "11c47aae0b77a3936e6f9d444670b2d84c60332dc8654efbc1eac297352d5b58",
+    "preprocess/gene_occlusion_samples.m": "4a0b46eefae5c3f410bbb8f4a9ba4df4f8b8dc359b053f5768e054ca8e3b6ca7",
+    "preprocess/interpolation.m": "fad2c9bd6ac7e261557ade4c07f526b03fb2c615ee772c0e5504085bc91ce6c6",
+    "preprocess/load_c3d.m": "c94bdd3ac5673ed81dd3070c09661c06b80f8e66cb84a93f20e6f2efb9543976",
+    "preprocess/movave.m": "9d26414ed49889bbc34cc468225f779475e356d76dcd00b7cdca8ea6e87c07dc",
+    "preprocess/normalization.m": "5af09b7e1a7d4937d4a1a5686dba1cb21569ef00504971b22224278b72e6ccdb",
+    "preprocess/remove_stapoint.m": "633d58082b11d219bd1e345f681dd209a0247b7c36562886243b1353c495bb82",
+    "preprocess/sub_sampling.m": "8da96c1f94e69094339d6528b91e0fd97cf665d441020a9244b3a1d5d2b0b9a6",
+    "tests/native/bridge.cpp": "77c8c7b65df03742106c6bc0ca019b0326facf29316248256043d4ba2decc1f2",
+    "tests/native/check.cpp": "68418574d3befe0d4c9cb55b4443d39da1eb0869d4b20fd4fb77652cb49d3a50",
+    "tests/native/circumcenter_check.cpp": "76d3397d5e42f589b799d8e01dcac8bdc627f9bbc9465e8cb2e09c7c2da6b452",
+    "tests/native/matrix.h": "8f82468318edd683b06ab568e282f3a6328252f9995c786e9ec7d8d7bb80f076",
+    "tests/native/mex.h": "347b8fd6abca59174a4ec1880b6f5f4f9e0fbd7e06cf19c5b513e7e2a48bf013",
+    "tests/native_runtime.py": "4dd5ce2bdd1c20f601c2c1fe94796e374a0381f908a9bd770b94eed4d60a4b19",
+    "tests/octave_include/matrix.h": "88927e0d49a09bf81ec8b7d8a035a2d6ef62f8df92b552d3ab9ff12bcc23d6f5",
+    "tests/reference.py": "2f4fc58b1c1bde29773c1f16e1761a3d65ade5454cd36a4775e688a1b29d1cff",
+    "tests/run_octave_validation.m": "e9aaf6afb0a7e5046518b6a7408dc95dd03a07a7de8556824897bd7bf2514ed3",
+    "tests/run_validation.py": "6825d358463c97c3e701a75ec46f5a2445a72da957dc9d9ab98c18557376d679"
+  },
+  "passed": true
+}

@@ -1,33 +1,38 @@
-function area = estimate_integral_fig(Curve_xyz,Ck,Cl,Cr,Radius,pos)
+function area = estimate_integral_fig(Curve_xyz, Ck, Cl, Cr, Radius, pos)
+% ESTIMATE_INTEGRAL_FIG Evaluate and visualise local area-integral geometry.
+%
+%   Arguments follow estimate_integral. This diagnostic variant has
+%   plotting and MAT-file output side effects; use estimate_integral for
+%   descriptor extraction without the figure-generation workflow.
+
 area_o = 0; %#ok<NASGU>
 area_n = 0; %#ok<NASGU>
 area_r = 0; %#ok<NASGU>
 area = 0; %#ok<NASGU>
 % s1 = Ck-Cl; s2 = Cr-Ck;
 area = 0; %#ok<NASGU>
-T1 = Ck-Cl; T2 = Cr-Ck;
-T1 = T1/norm(T1);
-T2 = T2/norm(T2);
+T1 = Ck - Cl; T2 = Cr - Ck;
+T1 = T1 / norm(T1);
+T2 = T2 / norm(T2);
 % T = T1;
 % B = cross(T1,T2); B= B/norm(B);
 % N = cross(B,T1);
 
 % T = (T1+T2)/norm(T1+T2);% modified by perry according to reviews of PR
-Cc = tricircumcenter3d(Cl,Ck,Cr)+Cl; % get the circumcenter
-N = (Cc - Ck)/norm(Cc- Ck);
-B = cross(T1,T2); B= B/norm(B);
-T = cross(N,B);
+Cc = tricircumcenter3d(Cl, Ck, Cr) + Cl; % get the circumcenter
+N = (Cc - Ck) / norm(Cc - Ck);
+B = cross(T1, T2); B = B / norm(B);
+T = cross(N, B);
 
-D = -(B*Ck');
+D = -(B * Ck');
 
 % [~, grid] = curve_grid(Segment_curve,500);
-%grid = 1/2000; %grid resolution
-grid = 2*Radius/50;
+% grid = 1/2000; %grid resolution
+grid = 2 * Radius / 50;
 % Ck_Rr = Ck + Radius*S1;
-Ck_Rl = Ck - Radius*T;
-Ck_Ru = Ck + Radius*N;
-Ck_Rb = Ck - Radius*N;
-
+Ck_Rl = Ck - Radius * T;
+Ck_Ru = Ck + Radius * N;
+Ck_Rb = Ck - Radius * N;
 
 %% get the osculating rectangle plane
 % rect_point = zeros((n+1)*(n+1),3);
@@ -42,81 +47,80 @@ Ck_Rb = Ck - Radius*N;
 % Radius_matrix = sqrt(sum(Radius_matrix.^2,2));
 % area = size(find(Radius_matrix<=Radius),1);
 %% get the projection on osculating plane
-t_dnom = B*B';
-t_nom = Curve_xyz*B'+D;
-t = t_nom/t_dnom;
-Po = Curve_xyz-t*B;
+t_dnom = B * B';
+t_nom = Curve_xyz * B' + D;
+t = t_nom / t_dnom;
+Po = Curve_xyz - t * B;
 
 %% get the area for osculating plane projection
-r_r = 0;r_l = 0;
+r_r = 0; r_l = 0;
 l_k = pos;
 r_k = pos;
 P_l = [];
 P_r = [];
-Po_length = size(Po,1);
+Po_length = size(Po, 1);
 
 %%
 while (r_l <= Radius && l_k > 1) || (r_r <= Radius && r_k < Po_length),
 
     if r_l <= Radius && l_k > 1
-        costheta = (Po(l_k,:)-Po(l_k-1,:))*T'/(norm((Po(l_k,:)-Po(l_k-1,:)))*norm(T));
-        grid_l = grid/costheta;
-        l_direction = (Po(l_k,:)-Po(l_k-1,:))/norm((Po(l_k,:)-Po(l_k-1,:)));
-        n_l = fix(norm((Po(l_k,:)-Po(l_k-1,:)))/grid_l);
-        P_l(end+1,:) = Po(l_k,:);
+        costheta = (Po(l_k, :) - Po(l_k - 1, :)) * T' / (norm((Po(l_k, :) - Po(l_k - 1, :))) * norm(T));
+        grid_l = grid / costheta;
+        l_direction = (Po(l_k, :) - Po(l_k - 1, :)) / norm((Po(l_k, :) - Po(l_k - 1, :)));
+        n_l = fix(norm((Po(l_k, :) - Po(l_k - 1, :))) / grid_l);
+        P_l(end + 1, :) = Po(l_k, :);
 
-        for i=sign(n_l):sign(n_l):n_l
-            P_l(end+1,:) = Po(l_k,:)-i*grid_l*l_direction;
+        for i = sign(n_l):sign(n_l):n_l
+            P_l(end + 1, :) = Po(l_k, :) - i * grid_l * l_direction;
         end
 
-        l_k = l_k-1;
-        r_l = norm(Po(l_k,:)-Po(pos,:));
+        l_k = l_k - 1;
+        r_l = norm(Po(l_k, :) - Po(pos, :));
         % bouding condition
         if l_k == 1
-            P_l(end+1,:) = Po(l_k,:);
+            P_l(end + 1, :) = Po(l_k, :);
         end
 
     end
 
     if r_r <= Radius && r_k < Po_length
-        costheta = (Po(r_k+1,:)-Po(r_k,:))*T'/(norm((Po(r_k+1,:)-Po(r_k,:)))*norm(T));
-        grid_r = grid/costheta;
-        r_direction = (Po(r_k+1,:)-Po(r_k,:))/norm((Po(r_k+1,:)-Po(r_k,:)));
-        n_r = fix(norm((Po(r_k+1,:)-Po(r_k,:)))/grid_r);
+        costheta = (Po(r_k + 1, :) - Po(r_k, :)) * T' / (norm((Po(r_k + 1, :) - Po(r_k, :))) * norm(T));
+        grid_r = grid / costheta;
+        r_direction = (Po(r_k + 1, :) - Po(r_k, :)) / norm((Po(r_k + 1, :) - Po(r_k, :)));
+        n_r = fix(norm((Po(r_k + 1, :) - Po(r_k, :))) / grid_r);
 
-        P_r(end+1,:) = Po(r_k,:);
-        for i=sign(n_r):sign(n_r):n_r
-            P_r(end+1,:) = Po(r_k,:)+i*grid_r*r_direction;
+        P_r(end + 1, :) = Po(r_k, :);
+        for i = sign(n_r):sign(n_r):n_r
+            P_r(end + 1, :) = Po(r_k, :) + i * grid_r * r_direction;
         end
-        r_k = r_k+1;
-        r_r = norm(Po(r_k,:)-Po(pos,:));
+        r_k = r_k + 1;
+        r_r = norm(Po(r_k, :) - Po(pos, :));
         % bouding condition
         if r_k == Po_length
-            P_r(end+1,:) = Po(r_k,:);
+            P_r(end + 1, :) = Po(r_k, :);
         end
     end
 end
 
 %%
 
-bound_line = [flipud(P_l);P_r];
-bound_length = size(bound_line,1);
+bound_line = [flipud(P_l); P_r];
+bound_length = size(bound_line, 1);
 P_u = [];
-for i=1:bound_length
-      n = fix(norm(bound_line(i,:)-Ck_Ru)/grid);
-      for j=1:n
-            P_u(end+1,:) = bound_line(i,:)+j*grid*N;
-      end
+for i = 1:bound_length
+    n = fix(norm(bound_line(i, :) - Ck_Ru) / grid);
+    for j = 1:n
+        P_u(end + 1, :) = bound_line(i, :) + j * grid * N;
+    end
 end
 
-
-P_area = [bound_line;P_u];
-n = size(P_area,1);
-Radius_matrix = P_area-repmat(Ck,n,1);
-Radius_matrix = sqrt(sum(Radius_matrix.^2,2));
-area_o = size(find(Radius_matrix<=Radius),1);
-area_o = area_o/(pi*fix(Radius/grid)*fix(Radius/grid)); % normalization for integral invariant
-P_area = P_area(find(Radius_matrix<=Radius),:);
+P_area = [bound_line; P_u];
+n = size(P_area, 1);
+Radius_matrix = P_area - repmat(Ck, n, 1);
+Radius_matrix = sqrt(sum(Radius_matrix.^2, 2));
+area_o = size(find(Radius_matrix <= Radius), 1);
+area_o = area_o / (pi * fix(Radius / grid) * fix(Radius / grid)); % normalization for integral invariant
+P_area = P_area(find(Radius_matrix <= Radius), :);
 area_o(isnan(area_o)) = [];
 %% plot the integral area invariant animation
 % center_length = fix(2*Radius/grid);
@@ -165,83 +169,80 @@ area_o(isnan(area_o)) = [];
 % end
 % end
 
-
 %% get the area for rectifying plane projection
-D = -(N*Ck');
-t_dnom = N*N';
-t_nom = Curve_xyz*N'+D;
-t = t_nom/t_dnom;
-Pr = Curve_xyz-t*N;
+D = -(N * Ck');
+t_dnom = N * N';
+t_nom = Curve_xyz * N' + D;
+t = t_nom / t_dnom;
+Pr = Curve_xyz - t * N;
 
-Ck_Rl = Ck - Radius*T;
-Ck_Ru = Ck + Radius*B;
-Ck_Rb = Ck - Radius*B;
+Ck_Rl = Ck - Radius * T;
+Ck_Ru = Ck + Radius * B;
+Ck_Rb = Ck - Radius * B;
 
-r_r = 0;r_l = 0;
+r_r = 0; r_l = 0;
 l_k = pos;
 r_k = pos;
 P_l = [];
 P_r = [];
-Pr_length = size(Pr,1);
+Pr_length = size(Pr, 1);
 while (r_l <= Radius && l_k > 1) || (r_r <= Radius && r_k < Pr_length),
 
     if r_l <= Radius && l_k > 1
-        costheta = (Pr(l_k,:)-Pr(l_k-1,:))*T'/(norm((Pr(l_k,:)-Pr(l_k-1,:)))*norm(T));
-        grid_l = grid/costheta;
-        l_direction = (Pr(l_k,:)-Pr(l_k-1,:))/norm((Pr(l_k,:)-Pr(l_k-1,:)));
-        n_l = fix(norm((Pr(l_k,:)-Pr(l_k-1,:)))/grid_l);
+        costheta = (Pr(l_k, :) - Pr(l_k - 1, :)) * T' / (norm((Pr(l_k, :) - Pr(l_k - 1, :))) * norm(T));
+        grid_l = grid / costheta;
+        l_direction = (Pr(l_k, :) - Pr(l_k - 1, :)) / norm((Pr(l_k, :) - Pr(l_k - 1, :)));
+        n_l = fix(norm((Pr(l_k, :) - Pr(l_k - 1, :))) / grid_l);
 
-        P_l(end+1,:) = Pr(l_k,:);
-        for i=sign(n_l):sign(n_l):n_l
-            P_l(end+1,:) = Pr(l_k,:)-i*grid_l*l_direction;
+        P_l(end + 1, :) = Pr(l_k, :);
+        for i = sign(n_l):sign(n_l):n_l
+            P_l(end + 1, :) = Pr(l_k, :) - i * grid_l * l_direction;
         end
 
-        l_k = l_k-1;
-        r_l = norm(Pr(l_k,:)-Pr(pos,:));
+        l_k = l_k - 1;
+        r_l = norm(Pr(l_k, :) - Pr(pos, :));
         % bouding condition
         if l_k == 1
-            P_l(end+1,:) = Pr(l_k,:);
+            P_l(end + 1, :) = Pr(l_k, :);
         end
     end
 
     if r_r <= Radius && r_k < Pr_length
-        costheta = (Pr(r_k+1,:)-Pr(r_k,:))*T'/(norm((Pr(r_k+1,:)-Pr(r_k,:)))*norm(T));
-        grid_r = grid/costheta;
-        r_direction = (Pr(r_k+1,:)-Pr(r_k,:))/norm((Pr(r_k+1,:)-Pr(r_k,:)));
-        n_r = fix(norm((Pr(r_k+1,:)-Pr(r_k,:)))/grid_r);
+        costheta = (Pr(r_k + 1, :) - Pr(r_k, :)) * T' / (norm((Pr(r_k + 1, :) - Pr(r_k, :))) * norm(T));
+        grid_r = grid / costheta;
+        r_direction = (Pr(r_k + 1, :) - Pr(r_k, :)) / norm((Pr(r_k + 1, :) - Pr(r_k, :)));
+        n_r = fix(norm((Pr(r_k + 1, :) - Pr(r_k, :))) / grid_r);
 
-        P_r(end+1,:) = Pr(r_k,:);
-        for i=sign(n_r):sign(n_r):n_r
-            P_r(end+1,:) = Pr(r_k,:)+i*grid_r*r_direction;
+        P_r(end + 1, :) = Pr(r_k, :);
+        for i = sign(n_r):sign(n_r):n_r
+            P_r(end + 1, :) = Pr(r_k, :) + i * grid_r * r_direction;
         end
-        r_k = r_k+1;
-        r_r = norm(Pr(r_k,:)-Pr(pos,:));
+        r_k = r_k + 1;
+        r_r = norm(Pr(r_k, :) - Pr(pos, :));
         % bouding condition
         if r_k == Pr_length
-            P_r(end+1,:) = Pr(r_k,:);
+            P_r(end + 1, :) = Pr(r_k, :);
         end
     end
 end
 
-bound_line = [flipud(P_l);P_r];
-bound_length = size(bound_line,1);
+bound_line = [flipud(P_l); P_r];
+bound_length = size(bound_line, 1);
 P_u = [];
-for i=1:bound_length
-      n = fix(norm(bound_line(i,:)-Ck_Ru)/grid);
-      for j=1:n
-            P_u(end+1,:) = bound_line(i,:)+j*grid*B;
-      end
+for i = 1:bound_length
+    n = fix(norm(bound_line(i, :) - Ck_Ru) / grid);
+    for j = 1:n
+        P_u(end + 1, :) = bound_line(i, :) + j * grid * B;
+    end
 end
 
-
-
-P_area = [bound_line;P_u];
-n = size(P_area,1);
-Radius_matrix = P_area-repmat(Ck,n,1);
-Radius_matrix = sqrt(sum(Radius_matrix.^2,2));
-area_r = size(find(Radius_matrix<=Radius),1);
-area_r = area_r/(pi*fix(Radius/grid)*fix(Radius/grid)); % normalization for integral invariant
-P_area = P_area(find(Radius_matrix<=Radius),:);
+P_area = [bound_line; P_u];
+n = size(P_area, 1);
+Radius_matrix = P_area - repmat(Ck, n, 1);
+Radius_matrix = sqrt(sum(Radius_matrix.^2, 2));
+area_r = size(find(Radius_matrix <= Radius), 1);
+area_r = area_r / (pi * fix(Radius / grid) * fix(Radius / grid)); % normalization for integral invariant
+P_area = P_area(find(Radius_matrix <= Radius), :);
 area_r(isnan(area_r)) = [];
 area = [area_o area_r];
 
@@ -393,29 +394,15 @@ area = [area_o area_r];
 % %           'LineWidth',2);hold on;
 %%  plot the Moving Frame
 
-if mod(pos,10)==0
-    view(-37.5,30);
-    T_fig = Curve_xyz(pos,:)+0.1*T; N_fig = Curve_xyz(pos,:)+0.1*N; B_fig = Curve_xyz(pos,:)+0.1*B;
+if mod(pos, 10) == 0
+    view(-37.5, 30);
+    T_fig = Curve_xyz(pos, :) + 0.1 * T; N_fig = Curve_xyz(pos, :) + 0.1 * N; B_fig = Curve_xyz(pos, :) + 0.1 * B;
     axis equal;
-    h1 = plot3([Curve_xyz(pos,1),T_fig(1)],[Curve_xyz(pos,2),T_fig(2)],[Curve_xyz(pos,3),T_fig(3)],'-b','LineWidth',2);hold on;
+    h1 = plot3([Curve_xyz(pos, 1), T_fig(1)], [Curve_xyz(pos, 2), T_fig(2)], [Curve_xyz(pos, 3), T_fig(3)], '-b', 'LineWidth', 2); hold on;
     axis equal;
-    h2 = plot3([Curve_xyz(pos,1),N_fig(1)],[Curve_xyz(pos,2),N_fig(2)],[Curve_xyz(pos,3),N_fig(3)],'-r','LineWidth',2);hold on;
+    h2 = plot3([Curve_xyz(pos, 1), N_fig(1)], [Curve_xyz(pos, 2), N_fig(2)], [Curve_xyz(pos, 3), N_fig(3)], '-r', 'LineWidth', 2); hold on;
     axis equal;
-    h3 = plot3([Curve_xyz(pos,1),B_fig(1)],[Curve_xyz(pos,2),B_fig(2)],[Curve_xyz(pos,3),B_fig(3)],'-c','LineWidth',2);hold on;
-    H=[h1,h2,h3];
+    h3 = plot3([Curve_xyz(pos, 1), B_fig(1)], [Curve_xyz(pos, 2), B_fig(2)], [Curve_xyz(pos, 3), B_fig(3)], '-c', 'LineWidth', 2); hold on;
+    H = [h1, h2, h3];
     save H H;
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-

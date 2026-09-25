@@ -4,15 +4,15 @@ t = cputime;
 vidObj = VideoWriter(aviname);
 vidObj.Quality = 100;
 vidObj.FrameRate = 3;
-%%vidObj.compression='None';
+%% vidObj.compression='None';
 open(vidObj);
 %% make moive from image sequence in a folder
 filename = dir(strcat(dirname, '\*.tif'));
 ConvertFrameNum = length(filename);
-for i = 1 : ConvertFrameNum
-%     imshow(imread(strcat(dirname, '\', filename(i).name)));
-%     currFrame=getframe;
-%     writeVideo(vidObj,currFrame);
+for i = 1:ConvertFrameNum
+    %     imshow(imread(strcat(dirname, '\', filename(i).name)));
+    %     currFrame=getframe;
+    %     writeVideo(vidObj,currFrame);
 
     pic = imread(strcat(dirname, '\', filename(i).name));
     Mov = im2frame(pic);

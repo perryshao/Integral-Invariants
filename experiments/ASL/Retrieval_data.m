@@ -1,5 +1,5 @@
-function [Retrieved_Data, Retrieved_Indx] = Retrieval_data(Query_Indx,QueryID,Clustered_Indx,...
-                                            ClusterData,ClusterID,Recall)
+function [Retrieved_Data, Retrieved_Indx] = Retrieval_data(Query_Indx, QueryID, Clustered_Indx, ...
+                                                           ClusterData, ClusterID, Recall)
 num = length(ClusterData);
 %% Clustering-based retrieval
 % K = length(Clustered_Indx);
@@ -42,10 +42,9 @@ num = length(ClusterData);
 Relevant_Indx = find(ClusterID == QueryID);
 for recall_num = 2:num
     Retrieved_Indx = Query_Indx(1:recall_num)';
-    recall = length(intersect(Relevant_Indx,Retrieved_Indx))/length(Relevant_Indx);
+    recall = length(intersect(Relevant_Indx, Retrieved_Indx)) / length(Relevant_Indx);
     if recall > Recall || recall == 1
         break;
     end
 end
 Retrieved_Data = ClusterData(Retrieved_Indx);
-

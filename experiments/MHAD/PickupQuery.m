@@ -1,8 +1,8 @@
-function [Qdata,QueryID] = PickupQuery(ClusterData,ClusterID,Q_num,ClusterRawData)
+function [Qdata, QueryID] = PickupQuery(ClusterData, ClusterID, Q_num, ClusterRawData)
 level = 0.01;
 data_num = length(ClusterData);
-pick_indx = ceil(rand(1,Q_num)*data_num);
-Qdata= ClusterData(pick_indx);
+pick_indx = ceil(rand(1, Q_num) * data_num);
+Qdata = ClusterData(pick_indx);
 QueryID = ClusterID(pick_indx);
 
 % QRawData = ClusterRawData(pick_indx);

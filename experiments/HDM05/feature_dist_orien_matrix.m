@@ -1,4 +1,4 @@
-function d=feature_dist_orien_matrix(t,r,orientation1,orientation2,flag)
+function d = feature_dist_orien_matrix(t, r, orientation1, orientation2, flag)
 %   flag1 -- 0: for tsd database; 1: for hdm05 database
 %   flag2 -- 0: for integral invariants 1: for differential invariants
 %   weight_h=1;
@@ -58,7 +58,7 @@ function d=feature_dist_orien_matrix(t,r,orientation1,orientation2,flag)
 %     det_rd(i,:) = sum(abs(rd),2)';% for norm-1
 %
 % end
-[det_k,det_t,det_orien,det_rd,S_k,S_t,S_orien,S_rd] = distance_matrix(t,r,orientation1,orientation2);
+[det_k, det_t, det_orien, det_rd, S_k, S_t, S_orien, S_rd] = distance_matrix(t, r, orientation1, orientation2);
 
 %% compute the global norm for normalization of different components
 % S_m=sum(t(:,1:dim).^2,2);
@@ -75,16 +75,12 @@ function d=feature_dist_orien_matrix(t,r,orientation1,orientation2,flag)
 % d =0.9*d+0.1*(det_k./S_k).*(det_t./S_t); % ---- interg 0.7871
 
 % factor_kt = mean(mean(det_orien./S_orien))/mean(mean(det_k./S_k));
-factor_kt = mean(mean(det_orien./S_orien))/mean(mean((det_k./S_k).*(det_t./S_t)));
-factor_rd = mean(mean(det_orien./S_orien))/mean(mean(det_rd./S_rd));
-d=factor_kt*(det_k./S_k).*(det_t./S_t)+(det_orien./S_orien)+factor_rd*(det_rd./S_rd); %---diff: 1 interg:0.9935
+factor_kt = mean(mean(det_orien ./ S_orien)) / mean(mean((det_k ./ S_k) .* (det_t ./ S_t)));
+factor_rd = mean(mean(det_orien ./ S_orien)) / mean(mean(det_rd ./ S_rd));
+d = factor_kt * (det_k ./ S_k) .* (det_t ./ S_t) + (det_orien ./ S_orien) + factor_rd * (det_rd ./ S_rd); % ---diff: 1 interg:0.9935
 % d=(det_orien./S_orien)+factor_rd*(det_rd./S_rd); % for Fourier desciptor
-d=(det_k./S_k).*(det_t./S_t);% for single root trajectory
+d = (det_k ./ S_k) .* (det_t ./ S_t); % for single root trajectory
 %% for  mutilscale distance integral invariants
 % factor_kt = mean(mean(det_orien./S_orien))/mean(mean(det_k./S_k));
 % factor_rd = mean(mean(det_orien./S_orien))/mean(mean(det_rd./S_rd));
 % d=factor_kt*(det_k./S_k)+(det_orien./S_orien)+factor_rd*(det_rd./S_rd); %---diff: 1 interg:0.9935
-
-
-
-

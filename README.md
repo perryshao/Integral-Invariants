@@ -31,9 +31,9 @@ keep their own licences; see [`thirdparty/README.md`](thirdparty/README.md).
 
 The MBS component (`mbs/`) was previously published standalone as the
 `Maximal-Blurred-Segments` repository, also under GPL-3.0; that repository has been
-retired now that its contents are carried here. Its sources are identical apart from
-the include paths, which were flattened (`"lib\unit_reco.h"` → `"unit_reco.h"`) to
-match this project's layout, and both `.mexa64` binaries are byte-identical.
+retired now that its contents are carried here. Its sources were integrated with
+flattened include paths and subsequently received formatting and comment-encoding cleanup. The historical `.mexa64`
+binaries are retained unchanged; rebuild them for your MATLAB platform.
 
 ---
 
@@ -141,7 +141,7 @@ Common signature: `I = integral_invariant_kn(Curve_xyz, Width, Radius)` where
 
 ```matlab
 cd IID
-setup_path            % adds every subfolder to the MATLAB path
+setup_path            % adds code folders, excluding archived variants
 ```
 
 Each `experiments/<DATASET>/` folder follows the same pattern:
@@ -239,24 +239,17 @@ are only needed for a Windows build.
 | `dpcore`, `dtwpath` | ✅ | ✅ | — | ✅ |
 | `distance_matrix_norm1/norm2/kt` | ✅ | ✅ | — | win32 |
 | `hist_isect_c` | ✅ | — | — | ✅ |
-| `MelkmanConvexHull` | ❌ **no source** | — | — | ✅ |
+| `MelkmanConvexHull` | ✅ recovered 2026-09-24 | — | — | ✅ |
 
-### ⚠️ Two known gaps
+### Platform limits and recovered source
 
-**1. The macOS binaries are Intel, this machine is Apple Silicon.**
-Every `.mexmaci64` here is `Mach-O 64-bit bundle x86_64`. Under an Apple-Silicon MATLAB
-(`maca64`) they will not load. Everything except `MelkmanConvexHull` has
-source in `mbs/src/` and `matching/src/`, so rebuild with the `mex` commands above —
-that is the intended fix, not Rosetta.
+The prebuilt macOS MEX files target Intel (`maci64`); Apple Silicon requires a
+separate build. MelkmanConvexHull and the orientation distance_matrix sources
+were recovered on 2026-09-24. `build_recovered_mex` builds the new candidates into
+a separate `build/recovered-mex` directory and does not replace shipped binaries.
+See [MEX recovery](docs/MEX_RECOVERY.md) for API guards, MSRC12 variants, native
+checks and the remaining MATLAB validation requirements.
 
-**2. `MelkmanConvexHull` exists only as Windows binaries — no source.**
-
-- `MelkmanConvexHull` implements the convex-hull dynamical-thickness test used by the
-  **pure-MATLAB** MBS path: `Determine_xy` / `Determine_xz`, reached from
-  `splitting_curve_2D` (2-D trajectories) and from the `splitting_curve_3D_mat` variant.
-  The **main 3-D pipeline is unaffected** — `splitting_curve_3D` calls the
-  `Determine_segment` mex, which does have source. So 3-D trajectory work rebuilds
-  cleanly; only the 2-D and pure-MATLAB fallback paths are blocked off-Windows.
 
 ---
 
@@ -334,3 +327,39 @@ Rather than silently discard those forks, they are preserved in `figures/variant
 - The OptiTrack / trakSTAR recordings from the 2021 validation study — its **code** is
   kept in `validation/`, but the `.mat`/`.csv`/`.xlsx`/`.fig` recordings are not.
   (Those 6 `.fig` files alone were 163 MB of the folder's 186 MB.)
+
+## Code maintenance and review
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for formatting and static-check commands,
+and [docs/CODE_REVIEW.md](docs/CODE_REVIEW.md) for the scope, fixes, validation
+limits, and unresolved issues from the source review. Third-party code retains
+its original formatting and attribution.
+
+Dataset folders contain functions with the same names. After `setup_path`, change
+to the intended `experiments/<DATASET>` directory and inspect `which -all` for
+the generator and matching functions used by that experiment. Archived variants
+in `figures/variants` and `validation/variants` are excluded from the default path.
+
+## Retired workspace resources
+
+Original sources, validation/ToZP variants and datasets from the old workspaces are
+preserved by SHA-256 under `~/Documents/Projects/LegacyResearchAssets`. The original
+validation tree is available in `IID-original-validation/`; use its manifest for
+other historical paths mentioned above. The canonical Git checkout is now
+`~/Documents/GitHub/repositories/Integral-Invariants/`.
+
+## Executable validation without MATLAB
+
+The [validation suite](tests/README.md) combines independent NumPy calculations,
+native C++ tests with sanitizers, and GNU Octave execution of the original MATLAB
+code. It exercises synthetic trajectories through preprocessing, segmentation,
+description, MAT files, dataset descriptor generators, DTW, and nearest-neighbour
+matching. See [validation findings](docs/VALIDATION.md) and the machine-readable
+[results](docs/VALIDATION_RESULTS.json) for coverage and remaining limitations.
+
+```sh
+python tests/run_validation.py --octave /path/to/octave-cli --report /tmp/iid-results.json
+```
+
+The newly tested circumcenter source fixes a MEX output-buffer overrun. Existing
+prebuilt binaries are unchanged and must be rebuilt to obtain that fix.

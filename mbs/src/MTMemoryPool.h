@@ -8,7 +8,7 @@ typedef CRITICAL_SECTION MUTEXTYPE;
 #else
 #include <pthread.h>
 typedef pthread_mutex_t MUTEXTYPE;
-#define INITMUTEX(m_cs) pthread_mutex_init(&m_cs,NULL)
+#define INITMUTEX(m_cs) pthread_mutex_init(&m_cs, NULL)
 #define DELMUTEX(m_cs) pthread_mutex_destroy(&m_cs)
 #define LOCK(m_cs) pthread_mutex_lock(&m_cs)
 #define UNLOCK(m_cs) pthread_mutex_unlock(&m_cs)
@@ -16,53 +16,40 @@ typedef pthread_mutex_t MUTEXTYPE;
 
 class CCriticalSection
 {
-public:
-    CCriticalSection()
-    {
-        INITMUTEX(m_cs);
-    }
+  public:
+    CCriticalSection() { INITMUTEX(m_cs); }
 
-    ~CCriticalSection()
-    {
-        DELMUTEX(m_cs);
-    }
+    ~CCriticalSection() { DELMUTEX(m_cs); }
 
-    void Lock()
-    {
-        LOCK(m_cs); 
-    }
+    void Lock() { LOCK(m_cs); }
 
-    void Unlock()
-    {
-        UNLOCK(m_cs);
-    }
+    void Unlock() { UNLOCK(m_cs); }
 
-protected:
+  protected:
     MUTEXTYPE m_cs;
 };
 
-template<typename POOLTYPE, typename LOCKTYPE>
-class CMTMemoryPool
+template <typename POOLTYPE, typename LOCKTYPE> class CMTMemoryPool
 {
-    public:
-        void* Alloc(unsigned int size)
-        {
-            void* p = NULL;
-            m_lock.Lock();
-            p = m_pool.Alloc(size);
-            m_lock.Unlock();
+  public:
+    void *Alloc(unsigned int size)
+    {
+        void *p = NULL;
+        m_lock.Lock();
+        p = m_pool.Alloc(size);
+        m_lock.Unlock();
 
-            return p;
-        }
+        return p;
+    }
 
-        void Free(void* p)
-        {
-            m_lock.Lock();
-            m_pool.Free(p);
-            m_lock.Unlock();    
-        }
+    void Free(void *p)
+    {
+        m_lock.Lock();
+        m_pool.Free(p);
+        m_lock.Unlock();
+    }
 
-    private:
-        POOLTYPE m_pool;
-        LOCKTYPE m_lock;
+  private:
+    POOLTYPE m_pool;
+    LOCKTYPE m_lock;
 };

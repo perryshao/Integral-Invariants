@@ -1,4 +1,4 @@
-function matchingScore = run_matching(aTrajectory, bTrajectory,descriptorId)
+function matchingScore = run_matching(aTrajectory, bTrajectory, descriptorId)
 %% parameter definition
 %  Input:
 %  aTrajectory -- a source 3D motion trajectory with a 3D sequence of points
@@ -7,13 +7,12 @@ function matchingScore = run_matching(aTrajectory, bTrajectory,descriptorId)
 %  Output:
 %  matchingScore -- how similar two trajectories are
 
-
 aTrajectory = double(aTrajectory);
 bTrajectory = double(bTrajectory);
-fprintf ('using the %dth descriptor...\n',descriptorId);
+fprintf ('using the %dth descriptor...\n', descriptorId);
 a_descriptor = cal_descriptors(aTrajectory, descriptorId);
 b_descriptor = cal_descriptors(bTrajectory, descriptorId);
-[dtw_distance, ~, ~,path]=dtw_adj_matching(a_descriptor,b_descriptor,450,descriptorId);
+[dtw_distance, ~, ~, path] = dtw_adj_matching(a_descriptor, b_descriptor, 450, descriptorId);
 
 % plot the dtw illustration
 % % aTrajectory = aTrajectory*0.1;
@@ -27,5 +26,3 @@ b_descriptor = cal_descriptors(bTrajectory, descriptorId);
 % end
 
 matchingScore = dtw_distance;
-
-

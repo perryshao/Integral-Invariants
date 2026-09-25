@@ -1,5 +1,3 @@
-
-
 % Implements a moving local average filter
 %
 % Simple and efficient moving-average filter using convolution. Only
@@ -19,18 +17,16 @@
 %
 % Version 4, Feb. 2006.
 
-function out = movave(data,windowsize)
-
+function out = movave(data, windowsize)
 
 % Check dimensions of data set
-[r,c] = size(data);
-if (r~=1) & (c~=1)
+[r, c] = size(data);
+if (r ~= 1) & (c ~= 1)
     error('Data must be a one-dimensional vector')
-elseif (r~=1)
+elseif (r ~= 1)
     data = data';
 end
-clear r,c;
-
+clear r, c;
 
 windowsize = round(abs(windowsize));
 if windowsize >= length(data)
@@ -38,15 +34,12 @@ if windowsize >= length(data)
     warning('The window you entered is bigger than or equal to the data length. It has been reduced to match.')
 end
 
-
 a = 1;      % Filter coefficients
-b = (1/windowsize)*ones(1,windowsize);
+b = (1 / windowsize) * ones(1, windowsize);
 
-averageddata = filter(b,a,data);
+averageddata = filter(b, a, data);
 
 % b = pdf('Normal',-floor(windowsize/2):floor(windowsize/2),0,1);   % gaussian
 % averageddata = filter(b,a,data);
 
-
 out = averageddata;
-

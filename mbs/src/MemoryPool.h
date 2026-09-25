@@ -1,62 +1,64 @@
-template<typename T>
-class CMemoryPool
+template <typename T> class CMemoryPool
 {
-    public:
-        enum { EXPANSION_SIZE = 32};
+  public:
+    enum
+    {
+        EXPANSION_SIZE = 32
+    };
 
-        CMemoryPool(unsigned int nItemCount = EXPANSION_SIZE)
-        {
-            ExpandFreeList(nItemCount);
-        }
-        
-        ~CMemoryPool()
-        {
-            //free all memory in the list
-            CMemoryPool<T>* pNext = NULL;
-            for(pNext = m_pFreeList; pNext != NULL; pNext = m_pFreeList)
-            {
-                m_pFreeList = m_pFreeList->m_pFreeList;
-                delete [](char*)pNext;
-            }
-        }
+    CMemoryPool(unsigned int nItemCount = EXPANSION_SIZE) { ExpandFreeList(nItemCount); }
 
-        void* Alloc(unsigned int /*size*/)
+    ~CMemoryPool()
+    {
+        //free all memory in the list
+        CMemoryPool<T> *pNext = NULL;
+        for (pNext = m_pFreeList; pNext != NULL; pNext = m_pFreeList)
         {
-            if(m_pFreeList == NULL)
-            {
-                ExpandFreeList();
-            }
-            
-            //get free memory from head
-            CMemoryPool<T>* pHead = m_pFreeList;
             m_pFreeList = m_pFreeList->m_pFreeList;
-            return pHead;
+            delete[] (char *)pNext;
         }
+    }
 
-        void Free(void* p)
+    void *Alloc(unsigned int /*size*/)
+    {
+        if (m_pFreeList == NULL)
         {
-            //push the free memory back to list
-            CMemoryPool<T>* pHead = static_cast<CMemoryPool<T>*>(p);
-            pHead->m_pFreeList = m_pFreeList;
-            m_pFreeList = pHead;
+            ExpandFreeList();
         }
 
-    protected:
-        //allocate memory and push to the list
-        void ExpandFreeList(unsigned nItemCount = EXPANSION_SIZE)
+        //get free memory from head
+        CMemoryPool<T> *pHead = m_pFreeList;
+        m_pFreeList = m_pFreeList->m_pFreeList;
+        return pHead;
+    }
+
+    void Free(void *p)
+    {
+        //push the free memory back to list
+        CMemoryPool<T> *pHead = static_cast<CMemoryPool<T> *>(p);
+        pHead->m_pFreeList = m_pFreeList;
+        m_pFreeList = pHead;
+    }
+
+  protected:
+    //allocate memory and push to the list
+    void ExpandFreeList(unsigned nItemCount = EXPANSION_SIZE)
+    {
+        unsigned int nSize =
+            sizeof(T) > sizeof(CMemoryPool<T> *) ? sizeof(T) : sizeof(CMemoryPool<T> *);
+        CMemoryPool<T> *pLastItem =
+            static_cast<CMemoryPool<T> *>(static_cast<void *>(new char[nSize]));
+        m_pFreeList = pLastItem;
+        for (int i = 0; i < nItemCount - 1; ++i)
         {
-            unsigned int nSize = sizeof(T) > sizeof(CMemoryPool<T>*) ? sizeof(T) : sizeof(CMemoryPool<T>*);
-            CMemoryPool<T>* pLastItem = static_cast<CMemoryPool<T>*>(static_cast<void*>(new char[nSize]));
-            m_pFreeList = pLastItem;
-            for(int i=0; i<nItemCount-1; ++i)
-            {
-                pLastItem->m_pFreeList = static_cast<CMemoryPool<T>*>(static_cast<void*>(new char[nSize]));
-                pLastItem = pLastItem->m_pFreeList;
-            }
-
-            pLastItem->m_pFreeList = NULL;
+            pLastItem->m_pFreeList =
+                static_cast<CMemoryPool<T> *>(static_cast<void *>(new char[nSize]));
+            pLastItem = pLastItem->m_pFreeList;
         }
 
-    private:
-        CMemoryPool<T>* m_pFreeList;
+        pLastItem->m_pFreeList = NULL;
+    }
+
+  private:
+    CMemoryPool<T> *m_pFreeList;
 };

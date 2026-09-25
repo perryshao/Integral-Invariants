@@ -1,4 +1,4 @@
-function [px] = gaussres (x,mu,sigma)
+function [px] = gaussres (x, mu, sigma)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   [px] = gaussres (x,mu,sigma)
 %
@@ -15,21 +15,19 @@ function [px] = gaussres (x,mu,sigma)
 %       end; end;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-d=size(sigma,1);
-if (size(x,1)~=d)  x=x'; end;
-if (size(mu,1)~=d)  mu=mu'; end;
+d = size(sigma, 1);
+if (size(x, 1) ~= d)  x = x'; end;
+if (size(mu, 1) ~= d)  mu = mu'; end;
 
-ndim=size(x,1);
-N=size(x,2);
+ndim = size(x, 1);
+N = size(x, 2);
 
-p=zeros(1,N);
+p = zeros(1, N);
 
-z=(x-mu(:,ones(1,N)))';
-IS=inv(sigma);
-DS=det(sigma);
+z = (x - mu(:, ones(1, N)))';
+IS = inv(sigma);
+DS = det(sigma);
 
 for l = 1:N,
-    px(l) = exp(-0.5*z(l,:)*IS*z(l,:)')  ./ sqrt((2*pi)^ndim*DS);
+    px(l) = exp(-0.5 * z(l, :) * IS * z(l, :)')  ./ sqrt((2 * pi)^ndim * DS);
 end;
-
-
