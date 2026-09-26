@@ -7,7 +7,7 @@ baseline descriptors used for comparison.
 This directory is a consolidated, **code-only** reconstruction of a project that was
 previously spread across a networked MATLAB workspace and several local folders.
 Intermediate results (`.mat`), figures (`.fig`/`.tif`/`.png`) and raw datasets are
-deliberately **not** included — see [Provenance](#provenance) and [Datasets](#datasets).
+deliberately **not** included — see [Datasets](#datasets).
 
 ---
 
@@ -283,50 +283,6 @@ first: `utils/train_libsvm.m`, `experiments/ASL/recognition_dtw_tsd_bat.m`,
 `gene_codebook_ScSPM.m`. Sources are listed in `thirdparty/README.md`.
 
 ---
-
-## Provenance
-
-| IID folder | Came from |
-|---|---|
-| `core/`, `mbs/*.m`, `matching/*.m`, `baselines/`, `preprocess/`, `utils/` | top level of `OneTouch/MatlabProjects/work/` |
-| `mbs/src/`, `mbs/bin/*.mexa64`, `*.mexmaci64` | local `Determine_segment_Linux/`, `Determine_segment_Mac/` |
-| `matching/src/`, `matching/bin/*.mexmaci64` | local `Validation 3 Clean/{dtwpath_c, distance_matrix, tricircumcenter_c}` |
-| `experiments/*` | `work/{HDM05,MHAD,ASL,MicrosoftGesture}EvaluatingCode/` — `.m`/`.cpp`/`.h`/mex only |
-| `figures/` | `work/analysis data/` + `work/` top level |
-| `validation/` | local `Validation 3 Clean/` — every `.m` and `ToZP/` file that existed nowhere else |
-| `thirdparty/` | `work/` toolboxes, code-only subsets |
-
-All three local source folders were verified byte-for-byte against IID before any
-cleanup; every code file they held is reproduced here.
-`Determine_segment_Linux/` and `Determine_segment_Mac/` were 100 % redundant and removed.
-`Validation 3 Clean/` was reduced to code only (186 MB → ~0.5 MB) rather than removed —
-its original `ToZP/` RRV descriptor is kept in place by request.
-`mbs/bin/tricircumcenter3d.val3build.mexmaci64` is a second build of the same source
-kept from `Validation 3 Clean` for completeness.
-
-### Notes on `figures/variants/`
-
-The core routines existed in **three** copies. `work/` top level and
-`Validation 3 Clean/` are byte-identical for most files and are treated as canonical
-(that is what `core/` holds). `work/analysis data/` held **modified** copies used to
-render the paper figures, and three files differ across all three copies:
-`integral_invariant_kn.m`, `integral_invariant_mkn.m`, `splitting_curve_3D.m`.
-
-Rather than silently discard those forks, they are preserved in `figures/variants/`
-(`val3_*` prefix = the `Validation 3 Clean` fork). If a figure fails to reproduce from
-`core/`, compare against the corresponding variant.
-
-### Deliberately excluded
-
-- All `.mat` intermediates, `.fig`/`.tif`/`.png` figures, and raw dataset files.
-- `.asv` MATLAB autosave backups.
-- `MHADEvaluatingCode/demo_depth/` — the MHAD dataset's own demo plus Bouguet's camera
-  calibration toolbox; not referenced by any code kept here.
-- Projects that share the workspace but do not use these invariants: depth-map I/O,
-  MSRAction3D, TUM Kitchen, sparse-coding demos, `IPEvaluatingCode`.
-- The OptiTrack / trakSTAR recordings from the 2021 validation study — its **code** is
-  kept in `validation/`, but the `.mat`/`.csv`/`.xlsx`/`.fig` recordings are not.
-  (Those 6 `.fig` files alone were 163 MB of the folder's 186 MB.)
 
 ## Code maintenance and review
 
