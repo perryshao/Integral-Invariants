@@ -48,9 +48,9 @@ uv tool run --from clang-format==23.1.1 clang-format --dry-run --Werror mbs/src/
 ```
 
 Review formatter diffs, especially MATLAB matrix literals and C macros. Do not
-use blanket text replacements for arithmetic spacing. Existing lint findings
-and runtime prerequisites are listed in `docs/CODE_REVIEW.md`. Numerical
-validation requires MATLAB, compatible MEX binaries, and the external datasets.
+use blanket text replacements for arithmetic spacing. Run the checks above to
+inspect current lint findings. Synthetic numerical validation can use Python and
+Octave; full benchmark validation requires the appropriate runtime and datasets.
 
 `tools/cleanup_originals.sh` is an old destructive archive-maintenance tool with
 machine-specific paths. It is not a build or test step; the command above only
@@ -59,3 +59,7 @@ checks its shell syntax.
 Source archives in `legacy/` also retain their original bytes and encoding.
 They are excluded from hygiene checks and are not runtime dependencies.
 For executable numerical checks, see [tests/README.md](tests/README.md).
+
+AI instructions, review reports, recovery notes and generated validation results
+are local work records. Keep them out of Git; publish reusable usage instructions
+in README files and reproducible checks in the test suite instead.

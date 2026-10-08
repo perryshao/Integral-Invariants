@@ -55,3 +55,18 @@ build/
 
 # Local source provenance (not published)
 /docs/PROVENANCE.local.md
+
+# Local AI instructions and intermediate work records
+[Aa][Gg][Ee][Nn][Tt][Ss].[Mm][Dd]
+[Cc][Ll][Aa][Uu][Dd][Ee].[Mm][Dd]
+[Rr][Ee][Vv][Ii][Ee][Ww]*.[Mm][Dd]
+[Hh][Aa][Nn][Dd][Oo][Ff][Ff]*.[Mm][Dd]
+*.local.md
+RECOVERY_*.md
+PROVENANCE_*.json
+/docs/CODE_REVIEW.md
+/docs/MEX_RECOVERY.md
+/docs/VALIDATION.md
+/docs/MEX_RECOVERY_NATIVE_CHECKS.json
+/docs/MEX_RECOVERY_PROVENANCE.json
+/docs/VALIDATION_RESULTS.json

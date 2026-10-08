@@ -247,8 +247,9 @@ The prebuilt macOS MEX files target Intel (`maci64`); Apple Silicon requires a
 separate build. MelkmanConvexHull and the orientation distance_matrix sources
 were recovered on 2026-09-24. `build_recovered_mex` builds the new candidates into
 a separate `build/recovered-mex` directory and does not replace shipped binaries.
-See [MEX recovery](docs/MEX_RECOVERY.md) for API guards, MSRC12 variants, native
-checks and the remaining MATLAB validation requirements.
+The MSRC12 orientation-distance variant is a separate build target; select it
+explicitly for that dataset. Recovered sources require validation on your MATLAB
+platform before replacing a shipped binary.
 
 
 ---
@@ -286,10 +287,8 @@ first: `utils/train_libsvm.m`, `experiments/ASL/recognition_dtw_tsd_bat.m`,
 
 ## Code maintenance and review
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for formatting and static-check commands,
-and [docs/CODE_REVIEW.md](docs/CODE_REVIEW.md) for the scope, fixes, validation
-limits, and unresolved issues from the source review. Third-party code retains
-its original formatting and attribution.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for formatting and static-check commands.
+Third-party code retains its original formatting and attribution.
 
 Dataset folders contain functions with the same names. After `setup_path`, change
 to the intended `experiments/<DATASET>` directory and inspect `which -all` for
@@ -310,8 +309,8 @@ The [validation suite](tests/README.md) combines independent NumPy calculations,
 native C++ tests with sanitizers, and GNU Octave execution of the original MATLAB
 code. It exercises synthetic trajectories through preprocessing, segmentation,
 description, MAT files, dataset descriptor generators, DTW, and nearest-neighbour
-matching. See [validation findings](docs/VALIDATION.md) and the machine-readable
-[results](docs/VALIDATION_RESULTS.json) for coverage and remaining limitations.
+matching. The suite documentation describes coverage and remaining limitations;
+use `--report` to generate a local result file for each run.
 
 ```sh
 python tests/run_validation.py --octave /path/to/octave-cli --report /tmp/iid-results.json

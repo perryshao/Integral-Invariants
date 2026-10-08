@@ -1,3 +1,6 @@
 # Historical source only
 
-Not part of the default MATLAB path. See `../../docs/MEX_RECOVERY.md` for known defects, missing dependencies and version differences. Do not replace current algorithms with these files.
+These sources are not on the default MATLAB path and must not replace the current
+algorithms without separate validation. Statisticdtw requires additional Blitz++
+and hwr dependencies; the blurred-segment originals include Windows-specific
+code. Their presence does not mean these historical experiments are runnable.
