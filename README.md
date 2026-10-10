@@ -285,24 +285,6 @@ first: `utils/train_libsvm.m`, `experiments/ASL/recognition_dtw_tsd_bat.m`,
 
 ---
 
-## Code maintenance and review
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for formatting and static-check commands.
-Third-party code retains its original formatting and attribution.
-
-Dataset folders contain functions with the same names. After `setup_path`, change
-to the intended `experiments/<DATASET>` directory and inspect `which -all` for
-the generator and matching functions used by that experiment. Archived variants
-in `figures/variants` and `validation/variants` are excluded from the default path.
-
-## Retired workspace resources
-
-Original sources, validation/ToZP variants and datasets from the old workspaces are
-preserved by SHA-256 under `~/Documents/Projects/LegacyResearchAssets`. The original
-validation tree is available in `IID-original-validation/`; use its manifest for
-other historical paths mentioned above. The canonical Git checkout is now
-`~/Documents/GitHub/repositories/Integral-Invariants/`.
-
 ## Executable validation without MATLAB
 
 The [validation suite](tests/README.md) combines independent NumPy calculations,

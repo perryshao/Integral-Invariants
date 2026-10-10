@@ -50,27 +50,3 @@ The test on transformed queries is a three-class synthetic nearest-neighbour
 check, not a reported benchmark accuracy. MATLAB itself, its toolboxes, legacy
 Windows binaries, raw dataset readers, optional baselines and full paper results
 still require their original environment and data.
-
-## Local Conda/macOS workaround used in this review
-
-Homebrew rejected the host macOS version. An isolated Conda Octave 10.3.0
-installation was used instead. Its relocated launcher/compiler flags contained
-embedded NUL padding. Calling `octave-cli` and overriding the temporary build
-variables avoided that packaging defect without patching Octave or project code:
-
-```sh
-export OCTAVE_HOME=/tmp/iid-octave
-export OCTAVE_EXEC_HOME=/tmp/iid-octave
-export CPPFLAGS=-DIID_VALIDATION_BUILD
-export CFLAGS=-O2
-export CXXFLAGS='-O2 -std=c++17'
-export XTRA_CFLAGS=-fPIC
-export XTRA_CXXFLAGS=-fPIC
-export LDFLAGS='-L/tmp/iid-octave/lib -Wl,-rpath,/tmp/iid-octave/lib'
-export DL_LDFLAGS='-bundle -Wl,-undefined,dynamic_lookup'
-```
-
-These overrides are specific to that macOS environment; do not apply the bundle
-linker flags on Linux. A normal Octave installation should use its own compiler
-configuration. `octave_include/matrix.h` is a test-only compatibility include for
-Octave's matrix API, which is already declared by its `mex.h`.
